@@ -1,0 +1,275 @@
+USER REGISTER
+
+POST http://localhost:5000/api/users/register
+
+Request Body:
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "johndoe@example.com",
+  "password": "Secure@123",
+  "phoneNumber": "9876543210",
+  "age": 25,
+  "gender": "male"
+}
+
+Response (on successful registration):
+{
+  "message": "User registered successfully",
+  "authToken": "your_jwt_token_here",
+  "refreshToken": "your_refresh_token_here"
+}
+
+Response (if email is already in use):
+{
+  "message": "Email already in use"
+}
+
+
+USER LOGIN
+
+POST http://localhost:5000/api/users/login
+
+Request Body:
+{
+  "email": "johndoe@example.com",
+  "password": "Secure@123"
+}
+
+Response (on successful login):
+{
+  "message": "Login successful",
+  "authToken": "your_jwt_token_here",
+  "refreshToken": "your_refresh_token_here"
+}
+
+Response (on invalid email or password):
+{
+  "message": "Invalid email or password"
+}
+
+
+USER LOGOUT
+
+POST http://localhost:5000/api/users/logout
+
+Headers:
+{
+  "Authorization": "Bearer YOUR_AUTH_TOKEN"
+}
+
+Response:
+{
+    "message": "Logged out successfully"
+}
+
+
+USER PROFILE
+
+GET http://localhost:5000/api/users/profile
+
+Headers:
+{
+  "Authorization": "Bearer YOUR_AUTH_TOKEN"
+}
+
+Response
+{
+  "message": "Profile fetched successfully",
+  "user": {
+    "_id": "65b123456789abcd",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com",
+    "phoneNumber": "9876543210",
+    "age": 25,
+    "gender": "male",
+    "createdAt": "2025-03-10T10:00:00.000Z",
+    "updatedAt": "2025-03-10T10:00:00.000Z"
+  }
+}
+
+
+ADD QUESTIONNAIRE
+
+POST http://localhost:5000/api/questionnaire/add
+
+Request Body:
+[
+  {
+    "type": "General Mental Health",
+    "question": "How would you rate your overall mental health?",
+    "answerOptions": ["Excellent", "Good", "Fair", "Poor", "Very Poor"]
+  },
+  {
+    "type": "Sleep, Appetite, and Libido",
+    "question": "How often do you experience problems with your sleep, appetite, or libido?",
+    "answerOptions": ["Not at all", "Rarely", "Sometimes", "Often", "Very Often"]
+  }
+]
+
+Response
+{
+  "message": "Questions added successfully",
+  "data": [
+    { "_id": "65b1234abcd1", "type": "General Mental Health", "question": "...", "answerOptions": ["..."] },
+    { "_id": "65b1234abcd2", "type": "Sleep, Appetite, and Libido", "question": "...", "answerOptions": ["..."] }
+  ]
+}
+
+
+GET QUESTIONNAIRE
+
+GET http://localhost:5000/api/questionnaire/all
+
+Response
+{
+  "message": "Questions retrieved successfully",
+  "data": [
+    { "_id": "65b1234abcd1", "type": "General Mental Health", "question": "...", "answerOptions": ["..."] },
+    { "_id": "65b1234abcd2", "type": "Sleep, Appetite, and Libido", "question": "...", "answerOptions": ["..."] }
+  ]
+}
+
+GET QUESTIONNAIRE
+
+GET http://localhost:5000/api/questionnaire/all
+
+Response
+{
+  "message": "Questions retrieved successfully",
+  "data": [
+    { "_id": "65b1234abcd1", "type": "General Mental Health", "question": "...", "answerOptions": ["..."] },
+    { "_id": "65b1234abcd2", "type": "Sleep, Appetite, and Libido", "question": "...", "answerOptions": ["..."] }
+  ]
+}
+
+
+GET QUESTIONNAIRE BY TYPE
+
+GET http://localhost:5000/api/questionnaire/type/General Mental Health
+
+Response
+{
+  "message": "Questions retrieved successfully",
+  "data": [
+    { "_id": "65b1234abcd1", "type": "General Mental Health", "question": "...", "answerOptions": ["..."] }
+  ]
+}
+
+
+ADD SCORE
+
+POST http://localhost:5000/api/score/add
+
+Request Body
+{
+  "userId": "67d0785f4ba96c0b9c4b391b",
+  "score": 8
+}
+
+Response
+{
+    "message": "Score added successfully",
+    "data": {
+        "userId": "67d0785f4ba96c0b9c4b391b",
+        "score": 8,
+        "_id": "67de9f533cf3575299e5750c",
+        "createdAt": "2025-03-22T11:30:27.127Z",
+        "updatedAt": "2025-03-22T11:30:27.127Z",
+        "__v": 0
+    }
+}
+
+
+GET SCORE
+
+GET http://localhost:5000/api/score/user/65b123456789abcd
+
+Response
+{
+    "message": "Scores retrieved successfully",
+    "data": [
+        {
+            "_id": "67de9f533cf3575299e5750c",
+            "userId": "67d0785f4ba96c0b9c4b391b",
+            "score": 8,
+            "createdAt": "2025-03-22T11:30:27.127Z",
+            "updatedAt": "2025-03-22T11:30:27.127Z",
+            "__v": 0
+        }
+    ]
+}
+
+
+GET SCORE AVERAGE
+
+GET http://localhost:5000/api/score/user/65b123456789abcd/average
+
+Response
+{
+  "message": "Average score calculated",
+  "averageScore": 7.5
+}
+
+
+ADD BLOG 
+
+POST http://localhost:5000/api/blog/add
+
+Request Body
+{
+  "title": "Managing Anxiety in Daily Life",
+  "description": "Anxiety can be overwhelming. Here are some techniques to help you manage it...",
+  "score": 15
+}
+
+Response
+{
+  "message": "Blog added successfully",
+  "data": {
+    "_id": "65b987654321abcd",
+    "title": "Managing Anxiety in Daily Life",
+    "description": "Anxiety can be overwhelming. Here are some techniques to help you manage it...",
+    "score": 15,
+    "createdAt": "2025-03-11T10:00:00Z"
+  }
+}
+
+
+GET BLOG BY SCORE
+
+GET /api/blog/15
+
+Response
+{
+  "message": "Blogs retrieved successfully",
+  "data": [
+    {
+      "_id": "65b987654321abcd",
+      "title": "Managing Anxiety in Daily Life",
+      "description": "Anxiety can be overwhelming. Here are some techniques to help you manage it...",
+      "score": 15,
+      "createdAt": "2025-03-11T10:00:00Z"
+    }
+  ]
+}
+
+
+GET ALL BLOGS
+
+GET http://localhost:5000/api/blog/
+
+Response
+{
+  "message": "Blogs retrieved successfully",
+  "data": [
+    {
+      "_id": "65b987654321abcd",
+      "title": "Managing Anxiety in Daily Life",
+      "description": "Anxiety can be overwhelming. Here are some techniques to help you manage it...",
+      "score": 15,
+      "createdAt": "2025-03-11T10:00:00Z"
+    }
+  ]
+}
